@@ -3,15 +3,15 @@
 在APP运行状态下获取APP产生的用户信息。
 ## 2结论
 目前有两种可以解决问题的方案：
-1、使用AccessibilityService获取当前界面view树，并根据Android Device Monitor中获取的控件名称信息来实现信息抓取。
-2、绕过OS，直接读取内存中对应位置的数据。
+* 1、使用AccessibilityService获取当前界面view树，并根据Android Device Monitor中获取的控件名称信息来实现信息抓取。
+* 2、绕过OS，直接读取内存中对应位置的数据。
 ## 3具体实现方法
 ### 3.1使用辅助服务
 在自己开发的APP中重写AccessibilityService类并设置要监听的APP的包名，就可以对指定的APP进行数据抓取。
-1、首先要通过Android Device Monitor来确定要抓取的控件的name。（name在单个view中是唯一的，不存在名字冲突的问题）。
-2、在onAccessibilityEvent(AccessibilityEvent (event)方法中获取包名、事件类型、view根节点。
-3、根据事件类型来决定是否响应这次事件，遍历view树来寻找我们需要的控件。
-4、得到控件之后就可以随意操作了（读写数据。。。）。
+* 1、首先要通过Android Device Monitor来确定要抓取的控件的name。（name在单个view中是唯一的，不存在名字冲突的问题）。
+* 2、在onAccessibilityEvent(AccessibilityEvent (event)方法中获取包名、事件类型、view根节点。
+* 3、根据事件类型来决定是否响应这次事件，遍历view树来寻找我们需要的控件。
+* 4、得到控件之后就可以随意操作了（读写数据。。。）。
 这种方法是通用的方法，适合于所有的APP。这个AccessibilityService其实是google提供的android反射式中间件（或许叫这个名字?反正他的功能就是能在运行过程中找到对应实例的类名和内部的属性）
 ### 3.2直接读取内存
 通过反复筛选数据来确定要找的数据在内存中的位置，类似的软件有”八门神器“，具体操作流程如下。
