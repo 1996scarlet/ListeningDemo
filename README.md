@@ -23,5 +23,5 @@
 ### 总结与备注
 综上所述，这两种方法都可以获取到运行时的用户数据，但是我比较推荐第一种。
 关于ADM的用法可以参照下图：
-![avatar](/img/zz.jpg)
+![avatar](/image/zz.png)
 我们成功的获取到了微信的信息输入edittext的id和name。
