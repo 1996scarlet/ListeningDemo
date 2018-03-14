@@ -7,11 +7,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.support.v7.app.AppCompatActivity
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedReader
+import java.io.InputStreamReader
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {
@@ -24,6 +29,34 @@ class MainActivity : AppCompatActivity() {
             val startIntent = Intent(this, ListeningService::class.java)
             startService(startIntent)
         })
+
+        access.setOnClickListener({
+            val settingIntent = Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
+            startActivity(settingIntent)
+        })
+
+        logger.movementMethod = ScrollingMovementMethod.getInstance()
+
+        thread(start = true) {
+            while (true) {
+                runOnUiThread({ updataLogger() })
+                Thread.sleep(15000)
+            }
+        }
+    }
+
+    fun updataLogger() {
+        val process = Runtime.getRuntime().exec("logcat -d time *:D | grep scarlet.soft.hit.listeningdemo")
+        val bufferedReader = BufferedReader(InputStreamReader(process.inputStream), 1024)
+        var line = bufferedReader.readLine()
+        while (line != null) {
+            logger.append("$line\n")
+            line = bufferedReader.readLine()
+        }
+        val offset = logger.lineCount * logger.lineHeight
+        if (offset > logger.height) {
+            logger.scrollTo(0, offset - logger.height)
+        }
     }
 
     fun getTopActivtyFromLolipopOnwards() {

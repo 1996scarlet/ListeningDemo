@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat
 class ListeningService : IntentService("ListeningService") {
 
     override fun onHandleIntent(p0: Intent?) {
+        //必须在安全设置中打开有权查看使用情况的应用
+        Log.d("OJBK","Online!")
         while (true) {
             getTopActivtyFromLolipopOnwards()
             sleep(5000)

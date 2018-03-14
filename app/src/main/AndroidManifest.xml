@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="scarlet.soft.hit.listeningdemo">
 
-    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.BIND_ACCESSIBILITY_SERVICE" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:allowBackup="true"
@@ -26,7 +27,17 @@
 
         <service
             android:name=".ListeningService"
-            android:exported="false"></service>
+            android:exported="false" />
+        <service
+            android:name=".ListeningAccessibility"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/wechat__service_config" />
+        </service>
     </application>
 
 </manifest>
